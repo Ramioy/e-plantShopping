@@ -2,10 +2,12 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
+import { useState } from 'react';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
+  const [showMessage, setShowMessage] = useState(false)
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
@@ -16,6 +18,10 @@ const CartItem = ({ onContinueShopping }) => {
     //alert('Functionality to be added for future reference');
     onContinueShopping(e);
   };
+
+  const handleCheckout = () => {
+    setShowMessage(!showMessage)
+  }
 
 
 
@@ -61,7 +67,10 @@ const CartItem = ({ onContinueShopping }) => {
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
         <br />
-        <button title='Cooming soon!!' className="get-started-button1">Checkout</button>
+        <button title='Cooming soon!!' onClick={() => handleCheckout()} className="get-started-button1">Checkout</button>
+        {showMessage && <div className='cooming-soon' style={{display: !showMessage && 'none'}}>
+            <p>This option will be <br/> available soon!</p>
+          </div>}
       </div>
     </div>
   );
